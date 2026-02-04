@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { produtoService } from '../services/produtoService';
+import { getFornecedores } from '../services/fornecedorService';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -10,6 +11,7 @@ const HomePage = () => {
   const [stats, setStats] = useState({
     totalProdutos: 0,
     itensEstoque: 0,
+    totalFornecedores: 0,
     loading: true,
     error: null
   });
@@ -76,11 +78,23 @@ const HomePage = () => {
         // Calcula itens em estoque (soma de quantidades)
         const itensEstoque = produtos?.reduce((sum, p) => sum + (p.quantidade || 0), 0) || 0;
 
+        // Busca fornecedores (para admin)
+        let totalFornecedores = 0;
+        if (isAdmin) {
+          try {
+            const fornecedores = await getFornecedores();
+            totalFornecedores = fornecedores?.length || 0;
+          } catch (err) {
+            console.error('Erro ao carregar fornecedores:', err);
+          }
+        }
+
         if (!active) return;
 
         setStats({
           totalProdutos,
           itensEstoque,
+          totalFornecedores,
           loading: false,
           error: null
         });
@@ -97,7 +111,7 @@ const HomePage = () => {
     return () => {
       active = false;
     };
-  }, []);
+  }, [isAdmin]);
 
   const handleCardClick = (path) => {
     navigate(path);
@@ -139,6 +153,14 @@ const HomePage = () => {
             {stats.loading ? '...' : stats.itensEstoque}
           </span>
         </div>
+        {isAdmin && (
+          <div className="stat-card">
+            <h4>Total de Fornecedores</h4>
+            <span className="stat-number">
+              {stats.loading ? '...' : stats.totalFornecedores}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="user-welcome">

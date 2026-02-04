@@ -1,7 +1,7 @@
 {
   "name": "controle-material",
   "version": "0.1.0",
-  "homepage": "https://iansebastiao.github.io/Projeto_Intregador/",
+  "homepage": "https://iansebastiao.github.io/projeto_final/",
   "private": false,
   "dependencies": {
     "@supabase/supabase-js": "^2.76.1",
@@ -14,12 +14,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
