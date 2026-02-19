@@ -64,7 +64,7 @@ const AppRoutes = () => {
             <Layout>
               <Routes>
                 {/* Página Inicial */}
-                {/* <Route path="/" element={<HomePage />} /> */}
+                <Route path="/" element={<HomePage />} />
                 <Route path="/projeto_final" element={<HomePage />} />
 
                 <Route path="/consulta-estoque" element={<ConsultaEstoquePage />} />
